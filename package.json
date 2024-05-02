@@ -1,5 +1,5 @@
 {
-  "name": "redcap_proxy",
+  "name": "redcap_api_write_example",
   "version": "0.0.1",
   "description": "Test REDCap API connector ",
   "main": "index.js",
@@ -13,6 +13,7 @@
   "author": "Dmitry \"Dima\" Strakovsky",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "uuid": "^9.0.1"
   }
 }

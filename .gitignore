@@ -1,9 +1,18 @@
+# Mac specific
 .DS_Store
 .Trashes
 *.swp
 
+# General 
 logs
 *.log
-npm-debug.log*
+.env
 
+# Node specific
+npm-debug.log*
 node_modules
+
+# VSCode specific
+.vscode
+.deployment
+
