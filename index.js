@@ -7,7 +7,6 @@ const url = require('url')
 
 const port = process.env.PORT || 3333
 
-
 const GenerateTestREDCapAPIPostData = () => {
 
   let send_data = '[{"record_id":"'+ uuidv1() + '", "user_id":"Final Countdown"}]'
@@ -28,9 +27,7 @@ const GenerateTestREDCapAPIPostData = () => {
   return post_data
 }
 
-//console.log(GenerateTestREDCapAPIPostData()) 
-
-// Have to build a custom url encoding because REDCap only accepts data as 'Content-Type': 'application/x-www-form-urlencoded' and various tools are trying to escape uri-ecoded chars
+// Have to build a custom url encoding because REDCap only accepts data as 'Content-Type': 'application/x-www-form-urlencoded' and various tools are trying to escape uri-encoded data
 // i.e. hard to serialize data that is part uri encoded and part json :(
 
 const BuildParams = (data_object) => {
@@ -44,10 +41,6 @@ const BuildParams = (data_object) => {
   return stringified.slice(0, -1)       //kill the last trailing &
 }
 
-console.log(BuildParams(GenerateTestREDCapAPIPostData()))
-
-
-
 
 app.get('/ping', (req, res) => {
   res.json({"ping":"success"})
@@ -55,31 +48,23 @@ app.get('/ping', (req, res) => {
 
 app.get('/test-write', (req, res) => {
 
-  console.log("start write")
-
   const params = BuildParams(GenerateTestREDCapAPIPostData())
-
-  console.log("built params")
 
   const options = {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: params,
-    url: process.env.REDCAP_API_ENDPOINT,
+    url: process.env.REDCAP_API_ENDPOINT
   }
   
-  console.log("started the call to REDCap")
 
-axios(options)
-  .then(function (response) {
-    res.json({"test":"success", "payload": response.data})
-    // res.json({"test":"success"})
-    // console.log(response);
-  })
-  .catch(function (error) {
-    res.json({"test":"error", "payload": error})
-    // console.log(error);
-  })
+  axios(options)
+    .then((response) => {
+      res.json({"test":"success", "payload": response.data})
+    })
+    .catch((error) => {
+      res.json({"test":"error", "payload": error})
+    })
 })
 
 app.listen(port, () => {
